@@ -91,6 +91,8 @@ services:
             CLICKHOUSE_LOGS_CLUSTER_USER: default
             CLICKHOUSE_LOGS_CLUSTER_PASSWORD: ''
             CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
+            OPENAI_API_KEY: ${OPENAI_API_KEY}
+            OPENAI_BASE_URL: ${OPENAI_BASE_URL}
         image: $REGISTRY_URL:$POSTHOG_APP_TAG
         depends_on:
             db:
@@ -138,6 +140,8 @@ services:
             CLICKHOUSE_LOGS_CLUSTER_USER: default
             CLICKHOUSE_LOGS_CLUSTER_PASSWORD: ''
             CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
+            OPENAI_API_KEY: ${OPENAI_API_KEY}
+            OPENAI_BASE_URL: ${OPENAI_BASE_URL}
         depends_on:
             - db
             - redis7
@@ -286,6 +290,8 @@ services:
         environment:
             SITE_URL: https://$DOMAIN
             SECRET_KEY: $POSTHOG_SECRET
+            OPENAI_API_KEY: ${OPENAI_API_KEY}
+            OPENAI_BASE_URL: ${OPENAI_BASE_URL}
         depends_on:
             - db
             - redis7
