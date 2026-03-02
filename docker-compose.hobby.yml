@@ -85,6 +85,12 @@ services:
             RECORDING_API_URL: http://plugins:6738
             ENCRYPTION_SALT_KEYS: $ENCRYPTION_SALT_KEYS
             POSTHOG_SKIP_MIGRATION_CHECKS: '1'
+            CLICKHOUSE_LOGS_CLUSTER_HOST: clickhouse
+            CLICKHOUSE_LOGS_CLUSTER_PORT: '9000'
+            CLICKHOUSE_LOGS_CLUSTER_DATABASE: default
+            CLICKHOUSE_LOGS_CLUSTER_USER: default
+            CLICKHOUSE_LOGS_CLUSTER_PASSWORD: ''
+            CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
         image: $REGISTRY_URL:$POSTHOG_APP_TAG
         depends_on:
             db:
@@ -126,6 +132,12 @@ services:
             GRANIAN_WORKERS: '2'
             OPT_OUT_CAPTURE: ${OPT_OUT_CAPTURE:-false}
             DEPLOYMENT: 'hobby'
+            CLICKHOUSE_LOGS_CLUSTER_HOST: clickhouse
+            CLICKHOUSE_LOGS_CLUSTER_PORT: '9000'
+            CLICKHOUSE_LOGS_CLUSTER_DATABASE: default
+            CLICKHOUSE_LOGS_CLUSTER_USER: default
+            CLICKHOUSE_LOGS_CLUSTER_PASSWORD: ''
+            CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
         depends_on:
             - db
             - redis7
@@ -312,6 +324,13 @@ services:
             file: docker-compose.base.yml
             service: replay-capture
 
+    capture-logs:
+        build:
+            context: ./posthog/rust
+        extends:
+            file: docker-compose.base.yml
+            service: capture-logs
+
     property-defs-rs:
         build:
             context: ./posthog/rust
@@ -344,7 +363,7 @@ services:
             - redis7
 
     kafka-init:
-        image: docker.redpanda.com/redpandadata/redpanda:v25.1.9
+        image: docker.io/redpandadata/redpanda:v25.1.9
         entrypoint: /bin/sh
         command:
             - -c
@@ -423,6 +442,10 @@ services:
                 condition: service_healthy
             redis7:
                 condition: service_healthy
+
+networks:
+    otel_network:
+        driver: bridge
 
 volumes:
     zookeeper-data:
