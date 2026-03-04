@@ -93,6 +93,7 @@ services:
             CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
             OPENAI_API_KEY: ${OPENAI_API_KEY}
             OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+            PERSISTED_FEATURE_FLAGS: ${PERSISTED_FEATURE_FLAGS}
         image: $REGISTRY_URL:$POSTHOG_APP_TAG
         depends_on:
             db:
@@ -142,6 +143,7 @@ services:
             CLICKHOUSE_LOGS_CLUSTER_SECURE: 'false'
             OPENAI_API_KEY: ${OPENAI_API_KEY}
             OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+            PERSISTED_FEATURE_FLAGS: ${PERSISTED_FEATURE_FLAGS}
         depends_on:
             - db
             - redis7
